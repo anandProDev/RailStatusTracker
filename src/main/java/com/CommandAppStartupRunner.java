@@ -1,6 +1,6 @@
 package com;
 
-import com.controller.StatusReceiver;
+import com.service.StatusReceiver;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

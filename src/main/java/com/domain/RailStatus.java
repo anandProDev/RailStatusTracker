@@ -1,80 +1,203 @@
 package com.domain;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-//@JsonIgnoreProperties({"date", "request_time", "station_code"})
-@JsonIgnoreProperties(ignoreUnknown = true)
+/**
+ * live response schema.
+ *
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "date",
+        "time_of_day",
+        "request_time",
+        "station_name",
+        "station_code",
+        "railDetailsHolder"
+})
 public class RailStatus {
 
-    @JsonIgnoreProperties(value = "date")
-    String date;
+    /**
+     * The date of interest specified in the request in yyyy-dd-mm format.
+     * (Required)
+     *
+     */
+    @JsonProperty("date")
+    @JsonPropertyDescription("The date of interest specified in the request in yyyy-dd-mm format.")
+    private String date;
+    /**
+     * The time of interest specified in the request in hh:mm format.
+     * (Required)
+     *
+     */
+    @JsonProperty("time_of_day")
+    @JsonPropertyDescription("The time of interest specified in the request in hh:mm format.")
+    private String timeOfDay;
+    /**
+     * The time of the request in ISO 8601 format.
+     * (Required)
+     *
+     */
+    @JsonProperty("request_time")
+    @JsonPropertyDescription("The time of the request in ISO 8601 format.")
+    private String requestTime;
+    /**
+     * The name of the station of interest.
+     * (Required)
+     *
+     */
+    @JsonProperty("station_name")
+    @JsonPropertyDescription("The name of the station of interest.")
+    private String stationName;
+    /**
+     * The station code of the station of interest as specified in the request.
+     * (Required)
+     *
+     */
+    @JsonProperty("station_code")
+    @JsonPropertyDescription("The station code of the station of interest as specified in the request.")
+    private String stationCode;
+    /**
+     * Holds a collection of the requested train railDetailsHolder.
+     * (Required)
+     *
+     */
+    @JsonProperty("railDetailsHolder")
+    @JsonPropertyDescription("Holds a collection of the requested train railDetailsHolder.")
+    private RailDetailsHolder railDetailsHolder;
 
-    @JsonProperty(value = "station_name", required=true)
-    String station_name;
-
-    @JsonProperty(value = "station_code", required=true)
-    String station_code;
-
-    @JsonProperty(value = "time_of_day", required=true)
-    String time_of_day;
-
-    @JsonProperty(value = "departures", required=true)
-    String departures;
-
-    public String getDepartures() {
-        return departures;
-    }
-
-    public void setDepartures(String departures) {
-        this.departures = departures;
-    }
-
-    //    @JsonProperty(value = "departures", required = true)
-//    ArrayList<TrainDetails> departures;
-//
-//    public ArrayList<TrainDetails> getDepartures() {
-//        return departures;
-//    }
-//
-//    public void setDepartures(ArrayList<TrainDetails> departures) {
-//        this.departures = departures;
-//    }
-
+    /**
+     * The date of interest specified in the request in yyyy-dd-mm format.
+     * (Required)
+     *
+     */
+    @JsonProperty("date")
     public String getDate() {
         return date;
     }
 
+    /**
+     * The date of interest specified in the request in yyyy-dd-mm format.
+     * (Required)
+     *
+     */
+    @JsonProperty("date")
     public void setDate(String date) {
         this.date = date;
     }
 
-    public String getStation_name() {
-        return station_name;
+    /**
+     * The time of interest specified in the request in hh:mm format.
+     * (Required)
+     *
+     */
+    @JsonProperty("time_of_day")
+    public String getTimeOfDay() {
+        return timeOfDay;
     }
 
-    public void setStation_name(String station_name) {
-        this.station_name = station_name;
+    /**
+     * The time of interest specified in the request in hh:mm format.
+     * (Required)
+     *
+     */
+    @JsonProperty("time_of_day")
+    public void setTimeOfDay(String timeOfDay) {
+        this.timeOfDay = timeOfDay;
     }
 
-    public String getStation_code() {
-        return station_code;
+    /**
+     * The time of the request in ISO 8601 format.
+     * (Required)
+     *
+     */
+    @JsonProperty("request_time")
+    public String getRequestTime() {
+        return requestTime;
     }
 
-    public void setStation_code(String station_code) {
-        this.station_code = station_code;
+    /**
+     * The time of the request in ISO 8601 format.
+     * (Required)
+     *
+     */
+    @JsonProperty("request_time")
+    public void setRequestTime(String requestTime) {
+        this.requestTime = requestTime;
     }
 
-    public String getTime_of_day() {
-        return time_of_day;
+    /**
+     * The name of the station of interest.
+     * (Required)
+     *
+     */
+    @JsonProperty("station_name")
+    public String getStationName() {
+        return stationName;
     }
 
-    public void setTime_of_day(String time_of_day) {
-        this.time_of_day = time_of_day;
+    /**
+     * The name of the station of interest.
+     * (Required)
+     *
+     */
+    @JsonProperty("station_name")
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
+    }
+
+    /**
+     * The station code of the station of interest as specified in the request.
+     * (Required)
+     *
+     */
+    @JsonProperty("station_code")
+    public String getStationCode() {
+        return stationCode;
+    }
+
+    /**
+     * The station code of the station of interest as specified in the request.
+     * (Required)
+     *
+     */
+    @JsonProperty("station_code")
+    public void setStationCode(String stationCode) {
+        this.stationCode = stationCode;
+    }
+
+    /**
+     * Holds a collection of the requested train railDetailsHolder.
+     * (Required)
+     *
+     */
+    @JsonProperty("departures")
+    public RailDetailsHolder getRailDetailsHolder() {
+        return railDetailsHolder;
+    }
+
+    /**
+     * Holds a collection of the requested train railDetailsHolder.
+     * (Required)
+     *
+     */
+    @JsonProperty("departures")
+    public void setRailDetailsHolder(RailDetailsHolder railDetailsHolder) {
+        this.railDetailsHolder = railDetailsHolder;
+    }
+
+    @Override
+    public String toString() {
+        return "RailStatus{" +
+                "date='" + date + '\'' +
+                ", timeOfDay='" + timeOfDay + '\'' +
+                ", requestTime='" + requestTime + '\'' +
+                ", stationName='" + stationName + '\'' +
+                ", stationCode='" + stationCode + '\'' +
+                ", railDetailsHolder=" + railDetailsHolder +
+                '}';
     }
 }

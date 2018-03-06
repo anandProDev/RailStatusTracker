@@ -1,4 +1,4 @@
-package com.controller;
+package com.service;
 
 
 public interface StatusReceiver {

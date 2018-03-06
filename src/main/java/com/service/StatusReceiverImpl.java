@@ -1,20 +1,16 @@
-package com.controller;
+package com.service;
 
 
 import com.domain.RailStatus;
 import com.domain.StationCode;
-import com.domain.TrainDetails;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -23,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 @Component
 public class StatusReceiverImpl implements StatusReceiver {
@@ -39,7 +34,8 @@ public class StatusReceiverImpl implements StatusReceiver {
     @Value("${transportApi.app.key}")
     String transportApiKey;
 
-    ObjectMapper mapper = new MyObjectMapper();
+    @Autowired
+    ObjectMapper mapper;
 
     @Override
     public void receiveFeeds() {
@@ -76,53 +72,13 @@ public class StatusReceiverImpl implements StatusReceiver {
 
             JsonNode body = jsonNodeHttpResponse.getBody();
 
-            //mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
             RailStatus railStatus = mapper.readValue(body.toString(), RailStatus.class);
 
 
-            System.out.println(railStatus);
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
-
-    private class MyObjectMapper extends ObjectMapper {
-
-        private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
-                = new com.fasterxml.jackson.databind.ObjectMapper();
-
-        public <T> T readValue(String value, Class<T> valueType) {
-            try {
-                T rootNode = jacksonObjectMapper.readValue(value, valueType);
-
-//                if (rootNode instanceof JsonNode) {
-//                    System.out.println(((JsonNode)rootNode).toString());
-//                }
-//
-//                if (rootNode instanceof JSONObject) {
-//                    System.out.println(((JsonNode)rootNode).toString());
-//                }
-//
-//                if (rootNode instanceof ArrayNode) {
-//
-//                    TrainDetails[] trainDetailses = mapper.readValue(rootNode.toString(), TrainDetails[].class);
-//                    System.out.println(trainDetailses);
-//                }
-
-
-
-
-                return rootNode;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-    }
-
-
 }
