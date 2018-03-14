@@ -1,0 +1,54 @@
+package com.service;
+
+
+import com.model.RailDetail;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
+import org.omg.CORBA.Current;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.sql.Time;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+@Component
+public class DelayDurationCalculator {
+
+
+    public void calculateDelay(RailDetail railDetail){
+
+        long aimedArrivalTime = getTimeInMillis(railDetail.getAimedArrivalTime());
+        long expectedArrivalTime = getTimeInMillis(railDetail.getExpectedArrivalTime());
+
+        long expectedDepartureTime = getTimeInMillis(railDetail.getExpectedDepartureTime());
+        long aimedDepartureTime = getTimeInMillis(railDetail.getAimedDepartureTime());
+
+
+        long arrivalTimeDiff = TimeUnit.MILLISECONDS.toMinutes(expectedArrivalTime - aimedArrivalTime);
+
+
+        long departureDiff = TimeUnit.MILLISECONDS.toMinutes(expectedDepartureTime - aimedDepartureTime);
+
+
+
+        if(arrivalTimeDiff > 30 || departureDiff > 30){
+
+            System.out.println("Train delayed ");
+
+        }
+
+    }
+
+
+    private long getTimeInMillis(String hourMinute){
+
+        List<String> hourMinuteList = Arrays.asList(hourMinute.split(":"));
+
+        return DateTime.now().withHourOfDay(Integer.valueOf(hourMinuteList.get(0)))
+                .withMinuteOfHour(Integer.valueOf(hourMinuteList.get(1))).getMillis();
+
+    }
+
+}

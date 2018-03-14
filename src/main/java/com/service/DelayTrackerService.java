@@ -1,7 +1,7 @@
 package com.service;
 
 
-import com.domain.RailStatus;
+import com.model.RailStatus;
 
 public interface DelayTrackerService {
 

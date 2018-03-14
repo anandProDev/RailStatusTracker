@@ -1,8 +1,8 @@
 package com.service;
 
 
-import com.domain.RailDetail;
-import com.domain.RailStatus;
+import com.model.RailDetail;
+import com.model.RailStatus;
 
 public interface TrainStatusProcessor {
 

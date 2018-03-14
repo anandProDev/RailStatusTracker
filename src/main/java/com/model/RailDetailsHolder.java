@@ -1,7 +1,8 @@
-package com.domain;
+package com.model;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +22,9 @@ public class RailDetailsHolder {
      * (Required)
      *
      */
-    @JsonProperty("departures")
+    @JsonProperty("all")
     @JsonPropertyDescription("A utility container for railDetail railDetailsHolder.")
-    private List<RailDetail> railDetail = null;
+    private List<RailDetail> railDetail = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

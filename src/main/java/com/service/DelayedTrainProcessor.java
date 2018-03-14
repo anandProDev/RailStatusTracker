@@ -1,15 +1,18 @@
 package com.service;
 
-import com.domain.RailDetail;
-import com.domain.RailStatus;
+import com.model.RailDetail;
+import com.model.RailStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("DelayedTrainProcessor")
 public class DelayedTrainProcessor implements TrainStatusProcessor {
 
+    @Autowired
+    DelayDurationCalculator delayDurationCalculator;
 
     @Override
     public void processTrains(RailStatus railStatus, RailDetail railDetail) {
-
+        delayDurationCalculator.calculateDelay(railDetail);
     }
 }
