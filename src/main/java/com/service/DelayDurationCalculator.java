@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class DelayDurationCalculator {
 
 
-    public void calculateDelay(RailDetail railDetail){
+    public String calculateDelay(RailDetail railDetail){
 
         long aimedArrivalTime = getTimeInMillis(railDetail.getAimedArrivalTime());
         long expectedArrivalTime = getTimeInMillis(railDetail.getExpectedArrivalTime());
@@ -32,12 +32,13 @@ public class DelayDurationCalculator {
         long departureDiff = TimeUnit.MILLISECONDS.toMinutes(expectedDepartureTime - aimedDepartureTime);
 
 
+        return String.valueOf(departureDiff);
 
-        if(arrivalTimeDiff > 30 || departureDiff > 30){
-
-            System.out.println("Train delayed ");
-
-        }
+//        if(arrivalTimeDiff > 30 || departureDiff > 30){
+//
+//            System.out.println("Train delayed ");
+//
+//        }
 
     }
 

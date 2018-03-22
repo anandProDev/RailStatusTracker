@@ -1,13 +1,9 @@
 package com.domain;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "delayedServices")
+@Document(collection = "delayedService")
 public class DelayedService {
-
-    @Id
-    String date;
 
     private String trainNumber;
     private String source;
@@ -15,4 +11,11 @@ public class DelayedService {
     private String lengthOfDelay;
     private String status;
 
+    public DelayedService(String trainNumber, String source, String destination, String lengthOfDelay, String status) {
+        this.trainNumber = trainNumber;
+        this.source = source;
+        this.destination = destination;
+        this.lengthOfDelay = lengthOfDelay;
+        this.status = status;
+    }
 }

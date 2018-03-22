@@ -1,7 +1,13 @@
 package com.db;
 
+import com.domain.DelayedServiceHolder;
 import com.model.RailDetail;
-import com.mongodb.WriteResult;
+import com.model.RailDetailsHolder;
+import com.mongodb.*;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.jndi.MongoClientFactory;
+import com.mongodb.connection.Server;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -11,6 +17,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class DelayedServiceRepositoryImpl implements DelayedServiceRepositoryCustom {
@@ -19,13 +27,26 @@ public class DelayedServiceRepositoryImpl implements DelayedServiceRepositoryCus
     MongoTemplate mongoTemplate;
 
     @Override
-    public int updateRailDetails(RailDetail railDetail){
+    public int updateRailDetails(DelayedServiceHolder delayedServiceHolder){
 
-        Query query = new Query(Criteria.where("date").is(getTodaysDate()));
+
+        MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
+
+        MongoDatabase test1 = mongoClient.getDatabase("test");
+
+
+
+        Map<String, Object> map = new HashMap<>();
+        map.put(getTodaysDate(), delayedServiceHolder);
+
+        test1.getCollection("mycollection").insertOne(new Document(map));
+
+        String todaysDate = getTodaysDate();
+        Query query = new Query(Criteria.where("date").is(todaysDate));
         Update update = new Update();
-        update.set("displayAds", railDetail);
+        update.set(delayedServiceHolder.getDate(), delayedServiceHolder);
 
-        WriteResult result = mongoTemplate.updateFirst(query, update, RailDetail.class);
+        WriteResult result = mongoTemplate.updateFirst(query, update, RailDetailsHolder.class);
 
         if(result!=null)
             return result.getN();
@@ -38,5 +59,21 @@ public class DelayedServiceRepositoryImpl implements DelayedServiceRepositoryCus
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDate localDate = LocalDate.now();
         return dtf.format(localDate);
+    }
+
+    public Mongo mongo() throws Exception {
+
+        MongoClientOptions options = MongoClientOptions.builder()
+                .connectionsPerHost(100)
+                .connectTimeout(120000)
+                .socketTimeout(120000)
+                .maxWaitTime(1200000)
+                .threadsAllowedToBlockForConnectionMultiplier(1500)
+                .writeConcern(WriteConcern.ACKNOWLEDGED)
+                .build();
+
+        MongoClient client = new MongoClient(new ServerAddress("127.0.0.1", 27017), options);
+
+        return client;
     }
 }

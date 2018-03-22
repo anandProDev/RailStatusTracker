@@ -1,9 +1,11 @@
 package com.db;
 
 
-import com.model.RailDetail;
+import com.domain.DelayedServiceHolder;
+import com.model.RailDetailsHolder;
 
 public interface DelayedServiceRepositoryCustom {
 
-    int updateRailDetails(RailDetail railDetail);
+    int updateRailDetails(DelayedServiceHolder delayedServiceHolder);
+
 }

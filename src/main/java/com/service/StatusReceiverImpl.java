@@ -65,8 +65,6 @@ public class StatusReceiverImpl implements StatusReceiver {
         fields.put("destination", DESTINATION);
        // fields.put("destination", StationCode.Sheffield.getCode());
 
-
-
         try {
 
             UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(transportApiUrl)

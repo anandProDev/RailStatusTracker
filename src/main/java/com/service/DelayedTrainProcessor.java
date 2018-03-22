@@ -13,6 +13,8 @@ public class DelayedTrainProcessor implements TrainStatusProcessor {
 
     @Override
     public void processTrains(RailStatus railStatus, RailDetail railDetail) {
-        delayDurationCalculator.calculateDelay(railDetail);
+        String delay = delayDurationCalculator.calculateDelay(railDetail);
+
+
     }
 }
