@@ -11,13 +11,14 @@ import org.springframework.stereotype.Component;
 import java.sql.Time;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Component
 public class DelayDurationCalculator {
 
 
-    public String calculateDelay(RailDetail railDetail){
+    public Optional<String> calculateDelay(RailDetail railDetail){
 
         long aimedArrivalTime = getTimeInMillis(railDetail.getAimedArrivalTime());
         long expectedArrivalTime = getTimeInMillis(railDetail.getExpectedArrivalTime());
@@ -31,15 +32,10 @@ public class DelayDurationCalculator {
 
         long departureDiff = TimeUnit.MILLISECONDS.toMinutes(expectedDepartureTime - aimedDepartureTime);
 
-
-        return String.valueOf(departureDiff);
-
-//        if(arrivalTimeDiff > 30 || departureDiff > 30){
-//
-//            System.out.println("Train delayed ");
-//
-//        }
-
+        if(arrivalTimeDiff > 30 || departureDiff > 30){
+            return Optional.of(String.valueOf(departureDiff));
+        }
+        return Optional.empty();
     }
 
 

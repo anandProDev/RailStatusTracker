@@ -30,7 +30,7 @@ public class DelayTrackerServiceImpl implements DelayTrackerService {
 
             if(Status.CANCELLED.name().equalsIgnoreCase(railDetail1.getStatus().name())){
                 System.out.println("Rails STATUS : " + railDetail1.getStatus().name());
-                trainStatusProcessorMap.get("CANCELLED").processTrains(railStatus, railDetail1);
+                trainStatusProcessorMap.get(railDetail1.getStatus().name()).processTrains(railStatus, railDetail1);
             }
 
             else if(Status.LATE.name().equalsIgnoreCase(railDetail1.getStatus().name())){
