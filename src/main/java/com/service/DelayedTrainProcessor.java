@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Component("DelayedTrainProcessor")
+@Component("LATE")
 public class DelayedTrainProcessor implements TrainStatusProcessor {
 
     private final DelayDurationCalculator delayDurationCalculator;
@@ -31,7 +31,7 @@ public class DelayedTrainProcessor implements TrainStatusProcessor {
         if(!calculateDelay.isPresent())
             return;
 
-        DelayedServiceHolder delayedServiceHolder = delayedServiceTransformer.transform(railStatus, railDetail);
+        DelayedServiceHolder delayedServiceHolder = delayedServiceTransformer.transform(railStatus, railDetail, calculateDelay);
 
         persistanceService.updateRailDetails(delayedServiceHolder);
     }

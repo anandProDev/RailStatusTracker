@@ -8,6 +8,7 @@ import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -28,19 +29,14 @@ public class DelayTrackerServiceImpl implements DelayTrackerService {
 
         railDetail.forEach(railDetail1 -> {
 
-            if(Status.CANCELLED.name().equalsIgnoreCase(railDetail1.getStatus().name())){
-                System.out.println("Rails STATUS : " + railDetail1.getStatus().name());
-                trainStatusProcessorMap.get(railDetail1.getStatus().name()).processTrains(railStatus, railDetail1);
-            }
+          //  System.out.println("  "+ railDetail1.getOriginName() + " : "+ railDetail1.getDestinationName() + " Rails STATUS : " + railDetail1.getStatus().name());
 
-            else if(Status.LATE.name().equalsIgnoreCase(railDetail1.getStatus().name())){
-                System.out.println("Rails STATUS : " + railDetail1.getStatus().name());
-                trainStatusProcessorMap.get("DelayedTrainProcessor").processTrains(railStatus, railDetail1);
-            }
-            else {
-                System.out.println("Rails on time : " + railDetail1.getStatus().name());
-                trainStatusProcessorMap.get("CANCELLED").processTrains(railStatus, railDetail1);
-            }
+            TrainStatusProcessor trainStatusProcessor = trainStatusProcessorMap.get(railDetail1.getStatus().name());
+            if(trainStatusProcessor == null)
+                return;
+
+
+            trainStatusProcessor.processTrains(railStatus, railDetail1);
         });
 
     }

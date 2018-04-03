@@ -1,6 +1,5 @@
 package com.db;
 
-import com.couchbase.client.core.BackpressureException;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.Cluster;
 import com.couchbase.client.java.CouchbaseCluster;
@@ -15,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-import rx.Observable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -108,17 +106,17 @@ public class PersistanceServiceImpl implements PersistanceService {
     }
 
 
-    private void add(DelayedServiceHolder holder, DelayedService delayedService){
+    private void add(DelayedServiceHolder fromCB, DelayedService delayedService){
 
-        List<DelayedService> delayedServices = holder.getDelayedServices().get(delayedService.getTrainNumber());
+        List<DelayedService> delayedServices = fromCB.getDelayedServices().get(delayedService.getTrainNumber());
 
         if(delayedServices!=null && delayedServices.isEmpty()){
-            holder.getDelayedServices().put(delayedService.getTrainNumber(), delayedServices);
+            fromCB.getDelayedServices().put(delayedService.getTrainNumber(), delayedServices);
             return;
         } else {
             delayedServices = new ArrayList<>();
             delayedServices.add(delayedService);
-            holder.getDelayedServices().put(delayedService.getTrainNumber(), delayedServices);
+            fromCB.getDelayedServices().put(delayedService.getTrainNumber(), delayedServices);
         }
     }
 

@@ -9,6 +9,8 @@ import com.transormer.DelayedServiceTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component("CANCELLED")
 public class CanceledTrainProcessor implements TrainStatusProcessor{
 
@@ -25,7 +27,8 @@ public class CanceledTrainProcessor implements TrainStatusProcessor{
     @Override
     public void processTrains(RailStatus railStatus, RailDetail railDetail) {
 
-        DelayedServiceHolder delayedServiceHolder = delayedServiceTransformer.transform(railStatus, railDetail);
+        Optional<String> calculateDelay = Optional.of("Cancelled: 2:00");
+        DelayedServiceHolder delayedServiceHolder = delayedServiceTransformer.transform(railStatus, railDetail, calculateDelay);
         persistanceService.updateRailDetails(delayedServiceHolder);
     }
 }
