@@ -1,4 +1,4 @@
-package com.db;
+package com.db.cb;
 
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.Cluster;
@@ -8,6 +8,7 @@ import com.couchbase.client.java.document.AbstractDocument;
 import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.RawJsonDocument;
 import com.couchbase.client.java.env.DefaultCouchbaseEnvironment;
+import com.db.PersistanceService;
 import com.domain.DelayedService;
 import com.domain.DelayedServiceHolder;
 import com.fasterxml.jackson.databind.ObjectMapper;

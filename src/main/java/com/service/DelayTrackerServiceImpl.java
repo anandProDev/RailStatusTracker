@@ -2,13 +2,9 @@ package com.service;
 
 import com.model.RailDetail;
 import com.model.RailStatus;
-import com.model.Status;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 

@@ -64,23 +64,24 @@ public class StatusReceiverImpl implements StatusReceiver {
 
     @Override
     public void receiveFeeds() {
-
-        if(withinTimeRange())
-            getStatus();
+        getStatus();
     }
 
     private boolean withinTimeRange() {
 
         try{
-            Date now = dateFormat.parse(dateFormat.format(new Date()));
+
+            Date now = dateFormat.parse(dateFormat.format(new Date(Calendar.getInstance().getTimeInMillis())));
 
             if(now.after(dateFormat.parse(startTime)) &&
                 now.before(dateFormat.parse(endTime)))
             return true;
 
         }catch (Exception e){
+            LOGGER.info("Outside time range");
             return false;
         }
+        LOGGER.info("Outside time range");
         return false;
     }
 
@@ -88,6 +89,8 @@ public class StatusReceiverImpl implements StatusReceiver {
     public void getStatus() {
         LOGGER.info("Get status call");
 
+        if(!withinTimeRange())
+            return;
         //https://transportapi.com/v3/uk/train/station/{from}/live.json?
         // app_id={app_id}&app_key={app_kep}&darwin=true&
         // destination={destination}&train_status=passenger

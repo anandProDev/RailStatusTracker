@@ -2,7 +2,7 @@ package com.domain;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "delayedService")
+//@Document(collection = "delayedService")
 public class DelayedService {
 
     private String trainNumber;
