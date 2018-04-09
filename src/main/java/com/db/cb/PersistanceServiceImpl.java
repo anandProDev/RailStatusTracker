@@ -12,6 +12,7 @@ import com.db.PersistanceService;
 import com.domain.DelayedService;
 import com.domain.DelayedServiceHolder;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -97,6 +98,12 @@ public class PersistanceServiceImpl implements PersistanceService {
             update(fromCB, delayedServiceHolder);
             replace(fromCB.getDate(), fromCB);
         }
+    }
+
+    @NotNull
+    @Override
+    public DelayedServiceHolder getDetails(@NotNull String date) {
+        return get(date, DelayedServiceHolder.class);
     }
 
     private void update(DelayedServiceHolder fromCB, DelayedServiceHolder delayedServiceHolder) {

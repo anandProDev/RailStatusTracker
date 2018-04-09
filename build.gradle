@@ -30,7 +30,8 @@ jar {
 
 
 docker {
-    name "${project.group}/${jar.baseName}"
+    //name "${project.group}/${jar.baseName}"
+    name "${jar.baseName}"
     files jar.archivePath
     buildArgs(['JAR_FILE': "${jar.archiveName}"])
 }

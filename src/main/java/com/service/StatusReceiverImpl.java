@@ -109,8 +109,6 @@ public class StatusReceiverImpl implements StatusReceiver {
                 System.out.println("Request count : " + ++requestCount);
                 System.out.println("RequestTime:" + Calendar.getInstance().getTime());
 
-
-
                 HttpResponse<JsonNode> jsonNodeHttpResponse = getRequest.asJson();
 
                 RailStatus railStatus = mapper.readValue(jsonNodeHttpResponse.getBody().toString(), RailStatus.class);

@@ -1,24 +1,20 @@
 package com.controller
 
-
+import com.db.PersistanceService
+import com.domain.DelayedServiceHolder
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.util.concurrent.atomic.AtomicLong
 
 @RestController
-class DelayStatusController{
-    val counter = AtomicLong()
+class DelayStatusController(persistanceService: PersistanceService) {
 
-    @GetMapping("/greeting")
-    fun greeting(@RequestParam(value = "name", defaultValue = "World") name: String) =
-            Greeting(counter.incrementAndGet(), "Hello, $name")
+    @Autowired
+    var persistanceService = persistanceService
 
-    @GetMapping("/hi")
-    fun greeting() =
-            Greeting(counter.incrementAndGet(), "Hello, anand")
-
-
+    @GetMapping("/delays")
+    fun getDelays(@RequestParam(value = "date") date: String) : DelayedServiceHolder =
+        persistanceService.getDetails(date)
 }
-
-data class Greeting(val id: Long, val content: String)
