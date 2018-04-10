@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @Repository
-public class PersistanceServiceImpl implements PersistanceService {
+public class CbPersistanceServiceImpl implements PersistanceService {
 
 
     private final JsonDocument emptyDocument = JsonDocument.create("default");
@@ -36,21 +36,23 @@ public class PersistanceServiceImpl implements PersistanceService {
     private final ObjectMapper objectMapper;
     private Bucket bucket;
     private ReplicateTo replicateTo;
-    private final static int COUCHBASE_OPERATION_TIME = 2000;
-    private long readTimeout = 3000;
+    private final int readTimeout;
+
 
     @Autowired
-    public PersistanceServiceImpl(        @Value("#{'${couchbase.seed.nodes}'.split(',')}") List<String> seedNodes,
-                                          @Value("${couchbase.bucket.name}") String bucketName,
-                                          @Value("${couchbase.bucket.pw}") String bucketPassword,
-                                          @Value("${couchbase.replicas}") String replicas,
-                                          ObjectMapper objectMapper
+    public CbPersistanceServiceImpl(@Value("#{'${couchbase.seed.nodes}'.split(',')}") List<String> seedNodes,
+                                    @Value("${couchbase.bucket.name}") String bucketName,
+                                    @Value("${couchbase.bucket.pw}") String bucketPassword,
+                                    @Value("${couchbase.replicas}") String replicas,
+                                    @Value("${couchbase.readTimeout}") int readTimeout,
+                                    ObjectMapper objectMapper
     ) throws Exception {
         this.seedNodes = seedNodes;
         this.bucketName = bucketName;
         this.bucketPassword = bucketPassword;
         this.replicas = replicas;
         this.objectMapper = objectMapper;
+        this.readTimeout = readTimeout;
         try {
 
             Cluster cluster = CouchbaseCluster.create(DefaultCouchbaseEnvironment.builder().connectTimeout(10000).build(), seedNodes);
