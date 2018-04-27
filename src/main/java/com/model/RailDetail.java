@@ -532,4 +532,28 @@ public class RailDetail {
 
     }
 
+    @Override
+    public String toString() {
+        return "RailDetail{" +
+                "serviceTimetable=" + serviceTimetable +
+                ", mode='" + mode + '\'' +
+                ", category='" + category + '\'' +
+                ", service='" + service + '\'' +
+                ", trainUid='" + trainUid + '\'' +
+                ", platform='" + platform + '\'' +
+                ", operator='" + operator + '\'' +
+                ", aimedDepartureTime='" + aimedDepartureTime + '\'' +
+                ", aimedArrivalTime='" + aimedArrivalTime + '\'' +
+                ", aimedPassTime='" + aimedPassTime + '\'' +
+                ", originName='" + originName + '\'' +
+                ", destinationName='" + destinationName + '\'' +
+                ", source=" + source +
+                ", status=" + status +
+                ", expectedArrivalTime='" + expectedArrivalTime + '\'' +
+                ", expectedDepartureTime='" + expectedDepartureTime + '\'' +
+                ", bestArrivalEstimateMins=" + bestArrivalEstimateMins +
+                ", bestDepartureEstimateMins=" + bestDepartureEstimateMins +
+                ", additionalProperties=" + additionalProperties +
+                '}';
+    }
 }

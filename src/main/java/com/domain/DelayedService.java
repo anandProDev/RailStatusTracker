@@ -15,11 +15,12 @@ public class DelayedService {
     private String railCompany;
     private String aimedDepartureTime;
     private String aimedArrivalTime;
+    private String lastUpdatedTime;
 
     public DelayedService() {
     }
 
-    public DelayedService(String trainNumber, String source, String destination, String lengthOfDelay, String status, String expectedDepartureTime, String expectedArrivalTime, String railCompany, String aimedDepartureTime, String aimedArrivalTime) {
+    public DelayedService(String trainNumber, String source, String destination, String lengthOfDelay, String status, String expectedDepartureTime, String expectedArrivalTime, String railCompany, String aimedDepartureTime, String aimedArrivalTime, String lastUpdatedTime) {
         this.trainNumber = trainNumber;
         this.source = source;
         this.destination = destination;
@@ -30,6 +31,7 @@ public class DelayedService {
         this.railCompany = railCompany;
         this.aimedDepartureTime = aimedDepartureTime;
         this.aimedArrivalTime = aimedArrivalTime;
+        this.lastUpdatedTime = lastUpdatedTime;
     }
 
     public String getTrainNumber() {
@@ -112,6 +114,14 @@ public class DelayedService {
         this.aimedArrivalTime = aimedArrivalTime;
     }
 
+    public String getLastUpdatedTime() {
+        return lastUpdatedTime;
+    }
+
+    public void setLastUpdatedTime(String lastUpdatedTime) {
+        this.lastUpdatedTime = lastUpdatedTime;
+    }
+
 
     public static final class DelayedServiceBuilder {
         private String trainNumber;
@@ -124,6 +134,7 @@ public class DelayedService {
         private String railCompany;
         private String aimedDepartureTime;
         private String aimedArrivalTime;
+        private String lastUpdatedTime;
 
         private DelayedServiceBuilder() {
         }
@@ -182,6 +193,11 @@ public class DelayedService {
             return this;
         }
 
+        public DelayedServiceBuilder withLastUpdatedTime(String lastUpdatedTime) {
+            this.lastUpdatedTime = lastUpdatedTime;
+            return this;
+        }
+
         public DelayedService build() {
             DelayedService delayedService = new DelayedService();
             delayedService.setTrainNumber(trainNumber);
@@ -194,7 +210,25 @@ public class DelayedService {
             delayedService.setRailCompany(railCompany);
             delayedService.setAimedDepartureTime(aimedDepartureTime);
             delayedService.setAimedArrivalTime(aimedArrivalTime);
+            delayedService.setLastUpdatedTime(lastUpdatedTime);
             return delayedService;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "DelayedService{" +
+                "trainNumber='" + trainNumber + '\'' +
+                ", source='" + source + '\'' +
+                ", destination='" + destination + '\'' +
+                ", lengthOfDelay='" + lengthOfDelay + '\'' +
+                ", status='" + status + '\'' +
+                ", expectedDepartureTime='" + expectedDepartureTime + '\'' +
+                ", expectedArrivalTime='" + expectedArrivalTime + '\'' +
+                ", railCompany='" + railCompany + '\'' +
+                ", aimedDepartureTime='" + aimedDepartureTime + '\'' +
+                ", aimedArrivalTime='" + aimedArrivalTime + '\'' +
+                ", lastUpdatedTime='" + lastUpdatedTime + '\'' +
+                '}';
     }
 }

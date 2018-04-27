@@ -1,10 +1,12 @@
 package com.domain;
 
 
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DelayedServiceHolder {
 
@@ -27,5 +29,48 @@ public class DelayedServiceHolder {
 
     public void setDelayedServices(Map<String, List<DelayedService>> delayedServices) {
         this.delayedServices = delayedServices;
+    }
+
+    public List<Map<String, Object>> toMap(){
+        List<Map<String, Object>> holder = new ArrayList<>();
+        delayedServices.forEach((k,v) -> buildDelayedList(holder, k, v));
+
+        return holder;
+    }
+
+    @Override
+    public String toString() {
+        return "DelayedServiceHolder{" +
+                "date='" + date + '\'' +
+                ", delayedServices=" + delayedServices +
+                '}';
+    }
+
+    private void buildDelayedList(List<Map<String, Object>> holder, String documentDate, List<DelayedService> delayedServices) {
+
+        List<Map<String, Object>> delayedList = new ArrayList<>();
+
+        delayedServices.forEach(service ->  {
+
+            HashMap<String, Object> s = new HashMap<>();
+
+                s.put("date", documentDate);
+                s.put("trainId", service.getTrainNumber());
+                s.put("source", service.getSource());
+                s.put("destination", service.getDestination());
+                s.put("lengthOfDelay", service.getLengthOfDelay());
+                s.put("status", service.getStatus());
+                s.put("expectedDepartureTime", service.getExpectedDepartureTime());
+                s.put("expectedArrivalTime", service.getExpectedArrivalTime());
+                s.put("railCompany", service.getRailCompany());
+                s.put("aimedDepartureTime", service.getAimedDepartureTime());
+                s.put("aimedArrivalTime", service.getAimedArrivalTime());
+                s.put("lastUpdatedTime", service.getLastUpdatedTime());
+
+                delayedList.add(s);
+            }
+        );
+
+        holder.addAll(delayedList);
     }
 }

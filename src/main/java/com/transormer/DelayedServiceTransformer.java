@@ -26,24 +26,28 @@ public class DelayedServiceTransformer {
         return holder;
     }
 
-
     private Map<String, List<DelayedService>> buildDelayedServiceDetails(RailStatus railStatus, RailDetail railDetail, Optional<String> calculateDelay){
 
-        Map<String, List<DelayedService>> details = new HashMap<String, List<DelayedService>>();
+        Map<String, List<DelayedService>> details = new HashMap<>();
 
         List<DelayedService> delayedServices = new ArrayList<>();
 
         delayedServices.add(build(railDetail, calculateDelay));
 
-        details.put(railDetail.getTrainUid(), delayedServices);
+        details.put(buildRailDetailKey(railDetail), delayedServices);
 
         return details;
+    }
+
+    private String buildRailDetailKey(RailDetail railDetail) {
+
+        return railDetail.getTrainUid();
     }
 
     private DelayedService build(RailDetail railDetail, Optional<String> calculateDelay){
 
         return DelayedService.DelayedServiceBuilder.aDelayedService()
-                .withTrainNumber(railDetail.getTrainUid())
+                .withTrainNumber(buildRailDetailKey(railDetail))
                 .withAimedArrivalTime(railDetail.getAimedArrivalTime())
                 .withAimedDepartureTime(railDetail.getAimedDepartureTime())
                 .withDestination(railDetail.getDestinationName())
@@ -53,7 +57,7 @@ public class DelayedServiceTransformer {
                 .withExpectedDepartureTime(railDetail.getExpectedDepartureTime())
                 .withLengthOfDelay(calculateDelay.get())
                 .withStatus(railDetail.getStatus().name())
+                .withLastUpdatedTime(String.valueOf(Calendar.getInstance().getTime()))
                 .build();
     }
-
 }

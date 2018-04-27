@@ -14,20 +14,22 @@ import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Repository
+@Component("mongo-db")
 public class MongoPersistanceServiceImpl implements PersistanceService {
 
     private final ObjectMapper objectMapper;
     private final MongoClient mongoClient;
     private final MongoDatabase database;
     private final MongoCollection<Document> collection;
+
 
     @Autowired
     public MongoPersistanceServiceImpl(@Value("${spring.data.mongodb.host}") String host,
@@ -75,14 +77,16 @@ public class MongoPersistanceServiceImpl implements PersistanceService {
     @Override
     public void updateRailDetails(DelayedServiceHolder delayedServiceHolder) {
 
-        DelayedServiceHolder fromCB = get(delayedServiceHolder.getDate(), DelayedServiceHolder.class);
+        insert(delayedServiceHolder.getDate(),delayedServiceHolder);
 
-        if(fromCB == null){
-            insert(delayedServiceHolder.getDate(),delayedServiceHolder);
-        } else {
-            update(fromCB, delayedServiceHolder);
-            update(fromCB.getDate(), fromCB);
-        }
+//        DelayedServiceHolder fromCB = get(delayedServiceHolder.getDate(), DelayedServiceHolder.class);
+//
+//        if(fromCB == null){
+//            insert(delayedServiceHolder.getDate(),delayedServiceHolder);
+//        } else {
+//            update(fromCB, delayedServiceHolder);
+//            update(fromCB.getDate(), fromCB);
+//        }
     }
 
     @NotNull
@@ -92,10 +96,15 @@ public class MongoPersistanceServiceImpl implements PersistanceService {
         return null;
     }
 
-    private void insert(final String id, Object object) {
-        Document document = new Document();
-        document.put(id, object);
-        collection.insertOne(document);
+    private void insert(final String id, DelayedServiceHolder object) {
+
+        List<Map<String, Object>> delayedServices = object.toMap();
+
+        delayedServices.forEach(delayedService -> {
+            Document document = new Document();
+            document.putAll(delayedService);
+            collection.insertOne(document);
+        });
     }
 
     private void update(final String id, Object object) {
@@ -129,5 +138,9 @@ public class MongoPersistanceServiceImpl implements PersistanceService {
             delayedServices.add(delayedService);
             fromCB.getDelayedServices().put(delayedService.getTrainNumber(), delayedServices);
         }
+    }
+
+    public static byte[] toByteArray(String s) {
+        return DatatypeConverter.parseHexBinary(s);
     }
 }

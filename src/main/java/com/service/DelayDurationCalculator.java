@@ -33,6 +33,7 @@ public class DelayDurationCalculator {
         long departureDiff = TimeUnit.MILLISECONDS.toMinutes(expectedDepartureTime - aimedDepartureTime);
 
         if(arrivalTimeDiff > 30 || departureDiff > 30){
+            System.out.println(railDetail.toString());
             return Optional.of(String.valueOf(departureDiff));
         }
         return Optional.empty();

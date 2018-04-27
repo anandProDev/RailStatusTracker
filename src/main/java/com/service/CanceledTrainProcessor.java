@@ -7,21 +7,27 @@ import com.model.RailDetail;
 import com.model.RailStatus;
 import com.transormer.DelayedServiceTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Component("CANCELLED")
 public class CanceledTrainProcessor implements TrainStatusProcessor{
 
 
-    private final PersistanceService persistanceService;
     private final DelayedServiceTransformer delayedServiceTransformer;
+    private final String databaseName;
+    private final Map<String, PersistanceService> persistanceServiceMap;
 
     @Autowired
-    public CanceledTrainProcessor(PersistanceService persistanceService, DelayedServiceTransformer delayedServiceTransformer) {
-        this.persistanceService = persistanceService;
+    public CanceledTrainProcessor(Map<String, PersistanceService> persistanceServiceMap,
+                                  DelayedServiceTransformer delayedServiceTransformer,
+                                  @Value("${application.databaseName.name}") String databaseName) {
+        this.persistanceServiceMap = persistanceServiceMap;
         this.delayedServiceTransformer = delayedServiceTransformer;
+        this.databaseName = databaseName;
     }
 
     @Override
@@ -29,6 +35,9 @@ public class CanceledTrainProcessor implements TrainStatusProcessor{
 
         Optional<String> calculateDelay = Optional.of("Cancelled: 2:00");
         DelayedServiceHolder delayedServiceHolder = delayedServiceTransformer.transform(railStatus, railDetail, calculateDelay);
-        persistanceService.updateRailDetails(delayedServiceHolder);
+
+        System.out.println(delayedServiceHolder.toString());
+
+        persistanceServiceMap.get(databaseName).updateRailDetails(delayedServiceHolder);
     }
 }

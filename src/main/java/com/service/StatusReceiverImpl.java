@@ -19,6 +19,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -115,7 +116,10 @@ public class StatusReceiverImpl implements StatusReceiver {
 
                 delayTrackerServiceImpl.processDelays(railStatus);
 
-            } catch (Exception e) {
+            } catch (UnknownHostException unknownHostException){
+                LOGGER.error("Could not connect to host ", unknownHostException);
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         });

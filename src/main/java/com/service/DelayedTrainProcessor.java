@@ -6,21 +6,29 @@ import com.model.RailDetail;
 import com.model.RailStatus;
 import com.transormer.DelayedServiceTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Component("LATE")
 public class DelayedTrainProcessor implements TrainStatusProcessor {
 
     private final DelayDurationCalculator delayDurationCalculator;
-    private final PersistanceService persistanceService;
+    private final Map<String, PersistanceService> persistanceServiceMap;
+    private final String databaseName;
     private final DelayedServiceTransformer delayedServiceTransformer;
 
     @Autowired
-    public DelayedTrainProcessor(DelayDurationCalculator delayDurationCalculator, PersistanceService persistanceService, DelayedServiceTransformer delayedServiceTransformer) {
+    public DelayedTrainProcessor(DelayDurationCalculator delayDurationCalculator,
+                                 Map<String, PersistanceService> persistanceServiceMap,
+                                 @Value("${application.databaseName.name}") String databaseName,
+                                 DelayedServiceTransformer delayedServiceTransformer) {
+
         this.delayDurationCalculator = delayDurationCalculator;
-        this.persistanceService = persistanceService;
+        this.persistanceServiceMap = persistanceServiceMap;
+        this.databaseName = databaseName;
         this.delayedServiceTransformer = delayedServiceTransformer;
     }
 
@@ -33,6 +41,6 @@ public class DelayedTrainProcessor implements TrainStatusProcessor {
 
         DelayedServiceHolder delayedServiceHolder = delayedServiceTransformer.transform(railStatus, railDetail, calculateDelay);
 
-        persistanceService.updateRailDetails(delayedServiceHolder);
+        persistanceServiceMap.get(databaseName).updateRailDetails(delayedServiceHolder);
     }
 }

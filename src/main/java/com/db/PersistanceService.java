@@ -8,7 +8,5 @@ import org.jetbrains.annotations.NotNull;
 public interface PersistanceService {
 
     void updateRailDetails(DelayedServiceHolder delayedServiceHolder);
-
-    @NotNull
     DelayedServiceHolder getDetails(@NotNull String date);
 }
