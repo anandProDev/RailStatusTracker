@@ -3,12 +3,8 @@ package com.service;
 
 import com.model.RailDetail;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeComparator;
-import org.omg.CORBA.Current;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

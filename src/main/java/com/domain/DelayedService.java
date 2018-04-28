@@ -1,7 +1,5 @@
 package com.domain;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 //@Document(collection = "delayedService")
 public class DelayedService {
 

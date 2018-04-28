@@ -5,8 +5,8 @@ import com.domain.DelayedService;
 import com.domain.DelayedServiceHolder;
 import com.model.RailDetail;
 import com.model.RailStatus;
-import org.springframework.stereotype.Component;
 import com.util.RailTrackerUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
