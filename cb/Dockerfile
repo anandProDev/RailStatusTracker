@@ -1,13 +1,14 @@
 FROM couchbase:5.1.0
-COPY init /
+COPY init.sh /
+COPY entrypoint.sh /tmp/
 
-RUN chmod 777 init
-RUN /init
-RUN rm /init
+RUN chmod 777 init.sh \
+    && /init.sh \
+    && rm init.sh
 
-COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["couchbase-server"]
 
 EXPOSE 8091
-#VOLUME /opt/couchbase/var
+
+VOLUME /opt/couchbase/var
