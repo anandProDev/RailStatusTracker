@@ -9,6 +9,4 @@ class FirstController {
 
     @RequestMapping("/answer")
     fun answer() = 42
-
-
 }
