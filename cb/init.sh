@@ -9,6 +9,12 @@ curl -s -u Administrator:password -X POST http://localhost:8091/pools/default -d
 /opt/couchbase/bin/couchbase-cli cluster-init -c localhost:8091 --cluster-username=admin --cluster-password=oogway --cluster-ramsize=512 --services=data,index,query --cluster-index-ramsize=256 --index-storage-setting=default
 /opt/couchbase/bin/couchbase-cli bucket-create -c localhost:8091 --bucket=status-tracker --bucket-type=couchbase --bucket-replica=0 --bucket-ramsize=100 -u admin -p oogway
 
+
+echo "Creating user"
+/opt/couchbase/bin/couchbase-cli user-manage -c localhost:8091 -u admin -p oogway --set --rbac-username status-tracker --rbac-password status-tracker --rbac-name "railstatustracker Bucket" --roles bucket_admin[status-tracker],bucket_full_access[status-tracker],views_admin[status-tracker],views_reader[status-tracker] --auth-domain local
+
+#/opt/couchbase/bin/couchbase-cli user-manage -c localhost:8091 -u admin -p oogway --set --rbac-username oogway --rbac-password oogway --rbac-name "Oogway Bucket" --roles bucket_admin[oogway],bucket_full_access[oogway],views_admin[oogway],views_reader[oogway] --auth-domain local
+
 cp /tmp/entrypoint.sh /entrypoint.sh
 
 # Original couchbase shares a volume, that means the above config change is overridden by the data stored in the volume during container start.

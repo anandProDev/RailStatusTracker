@@ -7,6 +7,7 @@ import com.couchbase.client.java.ReplicateTo;
 import com.couchbase.client.java.document.AbstractDocument;
 import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.RawJsonDocument;
+import com.couchbase.client.java.env.CouchbaseEnvironment;
 import com.couchbase.client.java.env.DefaultCouchbaseEnvironment;
 import com.db.PersistanceService;
 import com.domain.DelayedService;

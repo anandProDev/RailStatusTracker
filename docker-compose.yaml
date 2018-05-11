@@ -12,8 +12,9 @@ services:
 
   rail-status-tracker:
     image: rail-status-tracker
-    links:
-      - couchbase-anand
+    build: .
+#    links:
+#      - couchbase-anand
     depends_on:
       - couchbase-anand
 #    volumes:
@@ -24,6 +25,7 @@ services:
 
   couchbase-anand:
     image: couchbase
+    build: cb/
     ports:
       - "8091:8091"
       - "8092:8092"

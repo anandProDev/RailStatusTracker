@@ -87,6 +87,8 @@ public class StatusReceiverImpl implements StatusReceiver {
     public void getStatus() {
         LOGGER.info("Get status call");
 
+        System.out.println("Starting to process");
+
         if(!withinTimeRange())
             return;
         //https://transportapi.com/v3/uk/train/station/{from}/live.json?

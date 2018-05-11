@@ -26,8 +26,7 @@ public class DelayTrackerServiceImpl implements DelayTrackerService {
         railDetail.forEach(railDetail1 -> {
 
             TrainStatusProcessor trainStatusProcessor = trainStatusProcessorMap.get(railDetail1.getStatus().name());
-
-            //TrainStatusProcessor trainStatusProcessor = trainStatusProcessorMap.get("CANCELLED");
+         //   TrainStatusProcessor trainStatusProcessor = trainStatusProcessorMap.get("CANCELLED");
             if(trainStatusProcessor == null)
                 return;
 
